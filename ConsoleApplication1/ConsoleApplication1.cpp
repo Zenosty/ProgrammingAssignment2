@@ -1,247 +1,387 @@
-// ConsoleApplication1.cpp : Defines the entry point for the console application.
-//
+/*=========================================================*
+ |			                                               |
+ | PROJECT ASSIGNMENT FOR LIT.                             |
+ |                                                         |
+ | STEPHEN HICKEY(K00231578) & MARK HESTER(K00233238)      |
+ |                                                         |
+ *=========================================================*/
 
 #include "stdafx.h"
-#include <iostream>
 
 using namespace std;
+
+/*
+* Prototype functions.
+*/
+int GetTotalValue(void);
+int GetLargestValue(void);
+int GetSmallestValue(void);
+int GetOccurrences(int);
+void ZeroBase(void);
+void ReverseDisplay(void);
+void MenuSwitch(int);
+void ScaleValues(int);
+void DisplayCollectionToScreen(void);
+double GetAverageValue(void);
+
+// Write the output file only if required.
+bool writeFile = false;
+
+// Store the contents of the file for function use.
+vector<int> collection;
+
+// hold value from user keyboard input.
+int input;
 
 /*
  * Entry point of the application
  */
 int main()
 {
+	// hold each line as its read.
+	int line;
 
-	// initlize variables.
-	int menu_selection, input_integer, temp_integer;
+	//hold the user menu selection.
+	int menuSelection;
 
-	// store the size of the collection for dynamic changes.
-	const int collection_size = 3;
-
-	// initilize a collection for an array.
-	int collection[collection_size];
-
-	// used to order a collection before assigning back.
-	int tempCollection[collection_size];
+	// Construct file classes.
+	ifstream inputFile("Input.dat");
+	ofstream outputFile("Output.dat");
 
 	/*
-	 * Take input from the user for the array collection.
-	 */
-	for (int i = 0; i < collection_size; i++)
+	* Alter the initial code in the Project application so that the array is now filled 
+	* from a file called “Input.dat”
+	*/
+	while (inputFile >> line)
 	{
-		printf("Enter collection value [%d/%d] :", i + 1, collection_size);  cin >> collection[i];
+		collection.push_back(line);
+
+		cout << "Added " << line << " to collection" << endl;
 	}
 
 	do
 	{
-		printf("\n\n");
-		printf("====================[ Menu Section ]====================\n\n");
-		printf("   [0] => Display Collection                              \n");
-		printf("   [1] => Total Sum	                                      \n");
-		printf("   [2] => Average Sum		                              \n");
-		printf("   [3] => Largest Number				                  \n");
-		printf("   [4] => Smallest Number		     	                  \n");
-		printf("   [5] => Occurances of Number                            \n");
-		printf("   [6] => Collection Scale				                  \n");
-		printf("   [7] => Collection Reversed			                  \n");
-		printf("   [8] => Collection with Zero Base		                  \n");
-		printf("\n========================================================\n");
+		cout << "\n\n";
+		cout << "====================[ Menu Section ]====================\n\n";
+		cout << "   [0] => Display Collection                              \n";
+		cout << "   [1] => Total Sum	                                   \n";
+		cout << "   [2] => Average Sum		                               \n";
+		cout << "   [3] => Largest Number				                   \n";
+		cout << "   [4] => Smallest Number		     	                   \n";
+		cout << "   [5] => Occurances of Number                            \n";
+		cout << "   [6] => Collection Scale				                   \n";
+		cout << "   [7] => Collection Reversed			                   \n";
+		cout << "   [8] => Collection with Zero Base		               \n";
+		cout << "\n========================================================\n";
 
-		cout << "[Input] Enter Menu selection : "; cin >> menu_selection;
+		cout << "[Input] Enter Menu selection : "; cin >> menuSelection;
 
 		cout << endl << endl;
 
-		switch (menu_selection)
+		// Rewrite last term’s project to now include the following functions: MENU
+		MenuSwitch(menuSelection);
+
+	} while (menuSelection < 9);
+
+	/*
+	 * Add suitable code to the Project application as in 2. so that the contents of the array 
+	 * are written to a file called “Output.dat” before the application terminates
+	 */
+	if (writeFile == true) 
+	{
+		for (int i = 0; i < collection.size(); i++)
 		{
-			/***************************************************************************
-			* Display: Display the collection to the screen.
-			***************************************************************************/
-			case 0:
-				cout << "[0] => Display the current collection to the screen." << endl << endl;
+			outputFile << collection[i] << endl;
 
-				for (int i = 0; i < collection_size; i++)
-				{
-					printf("Collection[%d] : %d \n", i, collection[i]);
-				}
-				
-				break;
-
-			/***************************************************************************
-			* Total: Calculates the total of all the values in the collection
-			***************************************************************************/
-			case 1:
-				cout << "[1] => Returning the total of all values in collection." << endl << endl;
-					
-				temp_integer = 0;
-
-				for (int i = 0; i < collection_size; i++)
-				{
-					temp_integer += collection[i];
-				}
-
-				printf("Total: %d\n", temp_integer);
-
-				break;
-
-			/***************************************************************************
-			* Average: Calculates the average of all the values in the collection
-			***************************************************************************/
-			case 2:
-				cout << "[2] => Returning the average sum of the values in collection." << endl << endl;
-
-				temp_integer = 0;
-
-				for (int i = 0; i < collection_size; i++)
-				{
-					temp_integer += collection[i];
-				}
-
-				printf("Average: %.2f\n", ((double) temp_integer / collection_size));
-
-				break;
-
-			/***************************************************************************
-			* Largest: outputs the largest value in the collection
-			***************************************************************************/
-			case 3:
-				cout << "[3] => Returning the largest number in the collection." << endl << endl;
-				
-				// reset values.
-				temp_integer = 0;
-
-				for (int i = 0; i < collection_size; i++)
-				{
-					if (collection[i] > temp_integer)
-					{
-						temp_integer = collection[i];
-					}
-				}
-
-				printf("Greatest Value: %d\n", temp_integer);
-
-				break;
-
-			/***************************************************************************
-			* Smallest: outputs the smallest value in the collection
-			***************************************************************************/
-			case 4:
-				cout << "[4] => Returning the smallest number in the collection." << endl << endl;
-
-				// use the first value in the 
-				// array as a starting point..
-				temp_integer = collection[0];
-
-				for (int i = 0; i < collection_size; i++)
-				{
-					if (collection[i] < temp_integer)
-					{
-						temp_integer = collection[i];
-					}
-				}
-
-				printf("Lowest Value: %d\n", temp_integer);
-
-				break;
-
-
-			/***************************************************************************
-			* Occurrences of value: outputs the number of occurrences of a particular value in the collection
-			***************************************************************************/
-			case 5:
-				cout << "[5] => Returning occurance of value in the collection" << endl << endl;
-
-				cout << "[Input] Enter number to count for occurences : "; cin >> input_integer; cout << endl;
-
-				// reset values.
-				temp_integer = 0;
-
-				for (int i = 0; i < collection_size; i++)
-				{
-					if (collection[i] == input_integer)
-					{
-						temp_integer++;
-					}
-				}
-
-				printf("The value %d appears %d times in the collection\n", input_integer, temp_integer);
-
-				break;
-
-			/***************************************************************************
-			* Scale Up: Multiplies each value in the collection by the scale factor entered
-			***************************************************************************/
-			case 6:
-				cout << "[6] => Returning the collection scaled by number." << endl << endl;
-
-				cout << "[Input] Enter number to scale collection against : "; cin >> input_integer; cout << endl;
-
-				for (int i = 0; i < collection_size; i++)
-				{
-					printf("Collection[%d] : %d x %d = %d \n", i, collection[i], input_integer, collection[i] * input_integer);
-
-					collection[i] = collection[i] * input_integer;
-				}
-
-				break;
-
-			/***************************************************************************
-			* Reverse : which will re-arrange the contents of the collection so that they are in reverse order
-			***************************************************************************/
-			case 7:
-				cout << "[7] => Returning the collection in reverse." << endl << endl;
-
-				for (int i = 0; i < collection_size; i++)
-				{
-					tempCollection[i] = collection[collection_size - i - 1];
-				}
-
-				for (int i = 0; i < collection_size; i++)
-				{
-					collection[i] = tempCollection[i];
-
-					printf("Collection[%d] : %d\n", i, collection[i]);
-				}
-
-				break;
-
-			/***************************************************************************
-			* Zero Base : which will adjust all the values in the collection by the same amount so that the smallest value will be zero
-			***************************************************************************/
-			case 8:
-				cout << "[8] => Returning the collection with zero-base." << endl << endl;
-
-				// storing the first value from array to compare.
-				temp_integer = collection[0];
-
-				// iterate the array, find the smallest value.
-				for (int i = 0; i < collection_size; i++)
-				{
-					if (collection[i] < temp_integer)
-					{
-						temp_integer = collection[i];
-					}
-				}
-
-				// iterate the array, subtract the smallest value.
-				for (int i = 0; i < collection_size; i++)
-				{
-					collection[i] = collection[i] - temp_integer;
-
-					printf("Collection[%d] : %d\n", i, collection[i]);
-				}
-
-				break;
-
-			/***************************************************************************
-			* Invalid : Allows user to break out of the menu and the exectution loop.
-			***************************************************************************/
-			default:
-				printf("[%d] => Invalid option, breaking loop and execution. \n", menu_selection);
-				break;
+			cout << "Value " << collection[i] << " has been written to file." << endl;
 		}
+	}
 
-	} while (menu_selection < 9);
-
-    return 0;
+	return EXIT_SUCCESS;
 }
 
+/*
+ * Menu : which will display the same options as before (ref. last term’s project spec.)
+ */
+void MenuSwitch(int selection)
+{
+	switch (selection)
+	{
+		/***************************************************************************
+		* Display: Display the collection to the screen.
+		***************************************************************************/
+		case 0:
+
+			cout << "[0] => Display the current collection to the screen." << endl << endl;
+
+			DisplayCollectionToScreen();
+
+			break;
+
+		/***************************************************************************
+		* Total: Calculates the total of all the values in the collection
+		***************************************************************************/
+		case 1:
+
+			cout << "[1] => Returning the total of all values in collection." << endl << endl;
+
+			cout << "Total: " << GetTotalValue() << endl;
+
+			break;
+
+		/***************************************************************************
+		* Average: Calculates the average of all the values in the collection
+		***************************************************************************/
+		case 2:
+
+			cout << "[2] => Returning the average sum of the values in collection." << endl << endl;
+
+			cout << "Average: " << fixed << setprecision(2) << GetAverageValue() << endl;
+
+			break;
+
+		/***************************************************************************
+		* Largest: outputs the largest value in the collection
+		***********
+		****************************************************************/
+		case 3:
+
+			cout << "[3] => Returning the largest number in the collection." << endl << endl;
+
+			cout << "Greatest Value: " << GetLargestValue() << endl;
+
+			break;
+
+		/***************************************************************************
+		* Smallest: outputs the smallest value in the collection
+		***************************************************************************/
+		case 4:
+
+			cout << "[4] => Returning the smallest number in the collection." << endl << endl;
+
+			cout << "Lowest Value: " << GetSmallestValue() << endl;
+
+			break;
+
+
+		/***************************************************************************
+		* Occurrences of value: outputs the number of occurrences of a particular
+		* value in the collection
+		***************************************************************************/
+		case 5:
+
+			cout << "[5] => Returning occurance of value in the collection" << endl << endl;
+
+			cout << "[Input] Enter number to count for occurences : "; cin >> input; cout << endl;
+
+			cout << "The value " << input << " appears " << GetOccurrences(input) << " times in the collection" << endl;
+
+			break;
+
+		/***************************************************************************
+		* Scale Up: Multiplies each value in the collection by the scale factor
+		* entered
+		***************************************************************************/
+		case 6:
+
+			cout << "[6] => Returning the collection scaled by number." << endl << endl;
+
+			cout << "[Input] Enter number to scale collection against : "; cin >> input; cout << endl;
+
+			ScaleValues(input);
+
+			DisplayCollectionToScreen();
+
+			break;
+
+
+		/***************************************************************************
+		* Reverse : which will re-arrange the contents of the collection so that
+		* they are in reverse order
+		***************************************************************************/
+		case 7:
+
+			cout << "[7] => Returning the collection in reverse." << endl << endl;
+
+			ReverseDisplay();
+
+			DisplayCollectionToScreen();
+
+			break;
+
+		/***************************************************************************
+		* Zero Base : which will adjust all the values in the collection by the
+		* same amount so that the smallest value will be zero
+		***************************************************************************/
+		case 8:
+
+			cout << "[8] => Returning the collection with zero-base." << endl << endl;
+
+			ZeroBase();
+
+			DisplayCollectionToScreen();
+
+			break;
+
+		/***************************************************************************
+		* Invalid : Allows user to break out of the menu and the exectution loop.
+		***************************************************************************/
+		default:
+
+			cout << "[" << selection << "] => Exit option, Program will now exit !" << endl;
+
+			break;
+	}
+}
+
+
+/***************************************************************************
+* Average: Calculates the average of all the values in the collection
+* Calls a function to get the total Values.
+***************************************************************************/ 
+double GetAverageValue(void)
+{
+	return ((double) GetTotalValue() / collection.size());
+}
+
+/***************************************************************************
+* Display: Display the collection to the screen.
+***************************************************************************/
+void DisplayCollectionToScreen(void)
+{
+	for (int i = 0; i < collection.size(); i++)
+	{
+		cout << "Collection[" << i << "] : " << collection[i] << endl;
+	}
+}
+
+/***************************************************************************
+* Zero Base : which will adjust all the values in the collection by the
+* same amount so that the smallest value will be zero
+***************************************************************************/
+void ZeroBase(void)
+{
+	// storing the first value from array to compare.
+	auto smallestNumber = GetSmallestValue();
+
+	// iterate the array, subtract the smallest value.
+	for (int i = 0; i < collection.size(); i++)
+	{
+		collection[i] = collection[i] - smallestNumber;
+	}
+
+	// we want to write changed values to file.
+	writeFile = true;
+}
+
+/***************************************************************************
+* Reverse : which will re-arrange the contents of the collection so that
+* they are in reverse order
+***************************************************************************/
+void ReverseDisplay(void)
+{
+	vector<int> reversed;
+
+	// easier referencing.
+	const int size = (int)collection.size() - 1;
+
+	// store the collection into an array in reversed order.
+	for (int i = size; i >= 0; i--)
+	{
+		reversed.push_back(collection[i]);
+	}
+
+	// store the reversed array into the collection.
+	for (int i = 0; i < reversed.size(); i++)
+	{
+		collection[i] = reversed[i];
+	}
+
+	// we want to write changed values to file.
+	writeFile = true;
+}
+
+/***************************************************************************
+* Scale Up: Multiplies each value in the collection by the scale factor
+* entered
+***************************************************************************/
+void ScaleValues(int multiplier)
+{
+	for (int i = 0; i < collection.size(); i++)
+	{
+		collection[i] = collection[i] * multiplier;
+	}
+
+	// we want to write changed values to file.
+	writeFile = true;
+}
+
+/***************************************************************************
+* Total: Calculates the total of all the values in the collection
+***************************************************************************/
+int GetTotalValue(void)
+{
+	int total = 0;
+
+	for (int i = 0; i < collection.size(); i++)
+	{
+		total += collection[i];
+	}
+
+	return total;
+}
+
+/***************************************************************************
+* Largest: outputs the largest value in the collection
+***************************************************************************/
+int GetLargestValue(void)
+{
+	int largest = 0;
+
+	for (int i = 0; i < collection.size(); i++)
+	{
+		if (collection[i] > largest)
+		{
+			largest = collection[i];
+		}
+	}
+
+	return largest;
+}
+
+/***************************************************************************
+* Smallest: outputs the smallest value in the collection
+***************************************************************************/
+int GetSmallestValue(void)
+{
+	int smallest = collection[0];
+
+	for (int i = 0; i < collection.size(); i++)
+	{
+		if (collection[i] < smallest)
+		{
+			smallest = collection[i];
+		}
+	}
+
+	return smallest;
+}
+
+/***************************************************************************
+* Occurrences of value: outputs the number of occurrences of a particular
+* value in the collection
+***************************************************************************/
+int GetOccurrences(int value)
+{
+	int occurences = 0;
+
+	for (int i = 0; i < collection.size(); i++)
+	{
+		if (collection[i] == value)
+		{
+			occurences++;
+		}
+	}
+
+	return occurences;
+}
