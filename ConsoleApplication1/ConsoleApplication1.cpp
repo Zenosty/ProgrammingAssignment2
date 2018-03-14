@@ -50,7 +50,7 @@ int main()
 
 	/*
 	* Alter the initial code in the Project application so that the array is now filled 
-	* from a file called “Input.dat”
+	* from a file called â€œInput.datâ€
 	*/
 	while (inputFile >> line)
 	{
@@ -65,27 +65,28 @@ int main()
 		cout << "====================[ Menu Section ]====================\n\n";
 		cout << "   [0] => Display Collection                              \n";
 		cout << "   [1] => Total Sum	                                   \n";
-		cout << "   [2] => Average Sum		                               \n";
-		cout << "   [3] => Largest Number				                   \n";
-		cout << "   [4] => Smallest Number		     	                   \n";
+		cout << "   [2] => Average Sum		                           \n";
+		cout << "   [3] => Largest Number				   \n";
+		cout << "   [4] => Smallest Number		     	           \n";
 		cout << "   [5] => Occurances of Number                            \n";
-		cout << "   [6] => Collection Scale				                   \n";
-		cout << "   [7] => Collection Reversed			                   \n";
-		cout << "   [8] => Collection with Zero Base		               \n";
+		cout << "   [6] => Collection Scale				   \n";
+		cout << "   [7] => Collection Reversed			           \n";
+		cout << "   [8] => Collection with Zero Base		           \n";
+		cout << "   [9] => Exit						   \n";
 		cout << "\n========================================================\n";
 
 		cout << "[Input] Enter Menu selection : "; cin >> menuSelection;
 
 		cout << endl << endl;
 
-		// Rewrite last term’s project to now include the following functions: MENU
+		// Rewrite last termâ€™s project to now include the following functions: MENU
 		MenuSwitch(menuSelection);
 
 	} while (menuSelection < 9);
 
 	/*
 	 * Add suitable code to the Project application as in 2. so that the contents of the array 
-	 * are written to a file called “Output.dat” before the application terminates
+	 * are written to a file called â€œOutput.datâ€ before the application terminates
 	 */
 	if (writeFile == true) 
 	{
@@ -101,7 +102,7 @@ int main()
 }
 
 /*
- * Menu : which will display the same options as before (ref. last term’s project spec.)
+ * Menu : which will display the same options as before (ref. last termâ€™s project spec.)
  */
 void MenuSwitch(int selection)
 {
