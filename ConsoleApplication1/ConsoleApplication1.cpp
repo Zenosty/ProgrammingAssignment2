@@ -56,7 +56,7 @@ int main()
 	{
 		collection.push_back(line);
 
-		cout << "Added " << line << " to collection" << endl;
+		cout << "Added " << line << " to collection from file." << endl;
 	}
 
 	do
