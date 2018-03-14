@@ -2,7 +2,9 @@
  |			                                               |
  | PROJECT ASSIGNMENT FOR LIT.                             |
  |                                                         |
- | STEPHEN HICKEY(K00231578) & MARK HESTER(K00233238)      |
+ | STEPHEN HICKEY(K00231578)                               |
+ | MARK HESTER(K00233238)                                  |
+ | SZYMON KAMINSKI (K00229583)                             |
  |                                                         |
  *=========================================================*/
 
